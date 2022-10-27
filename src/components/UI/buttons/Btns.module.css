@@ -1,0 +1,14 @@
+.deleteIcon {
+   color: #ca5252;
+    font-size:20px;
+     margin:50px auto;
+}
+.editIcon {
+    color: green;
+    font-size:20px;
+    margin:50px auto;
+}
+.orange {
+    background: orange;
+    border:orange;
+}
