@@ -6,16 +6,22 @@ table {
     background: orange;
     border: orange;
 }
-
+.editBlock,
+.productBlock,
+.block{
+    display: block;
+}
 .editNone,
-.productNone {
+.productNone,
+.none{
     display: none;
 
 }
 
-.editBlock,
-.productBlock {
-    display: block;
-}
 .display-flex {
 display:flex;}
+.edit-menu {
+display:flex;
+flex-direction: column;
+width:500px;
+}
