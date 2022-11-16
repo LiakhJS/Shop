@@ -45,42 +45,50 @@ const ProductsTable = () => {
     price: "",
     count: "",
   });
-  const productsId = products.map((elem)=> elem.id);
+  const productsId = products.map((elem) => elem.id);
+  const newId = Number(productsId.slice(-1)) + 1;
+  const [formValid, setFormValid] = useState(false);
 
-  const newId=Number(productsId.slice(-1))+1;
-  const createNewProduct = (NewProduct) => {
-    setProductsList([...products, NewProduct]);
-  };
   const deleteProduct = (name) => {
     setProductsList(products.filter((el) => el.name !== name));
     setEditWindowBlock(false);
   };
-  const showEditWindow = () => {
-    setEditWindowBlock(!editWindowBlock);
-  };
 
   const editProduct = () => {
     const copy = Object.assign([], products);
-     console.log(copy[activeElem.index]);
-
-           
-		copy[activeElem.index].url = edittedProperties.url;
-		copy[activeElem.index].name = edittedProperties.name;
-		copy[activeElem.index].price = edittedProperties.price;
-		copy[activeElem.index].count = edittedProperties.count;
-		setProductsList(copy);
- };
+    copy[activeElem.index].url = edittedProperties.url;
+    copy[activeElem.index].name = edittedProperties.name;
+    copy[activeElem.index].price = edittedProperties.price;
+    copy[activeElem.index].count = edittedProperties.count;
+    setProductsList(copy);
+  };
 
   const editProductFunction = (e) => {
     setEditWindowBlock(false);
+    setFormValid(false);
     e.stopPropagation();
+    e.preventDefault();
     editProduct();
-    closeEditWindow();
     setEdittedproduct({ url: "", name: "", price: "", count: "" });
+    closeEditWindow();
   };
+
+  const createNewProduct = (NewProduct) => {
+    setProductsList([...products, NewProduct]);
+  };
+
+  const showEditWindow = () => {
+if (activeCreateForm) {
+  setEditWindowBlock(editWindowBlock);
+} else 
+    setEditWindowBlock(!editWindowBlock);
+  };
+
   const closeEditWindow = (e) => {
+    e.preventDefault();
     setEditWindowBlock(false);
   };
+
   const tableTitles = [
     "URL фотографии",
     "Название",
@@ -101,7 +109,7 @@ const ProductsTable = () => {
         editWindowBlock={editWindowBlock}
         setProductCardBlock={setProductCardBlock}
         setActiveElem={setActiveElem}
-index={index}
+        index={index}
       />
     );
   });
@@ -118,21 +126,18 @@ index={index}
         </table>
         <ProductCard
           productCardBlock={productCardBlock}
-          activeProduct={activeProduct}
           activeElem={activeElem}
         />
       </div>
       <EditWindow
         editWindowBlock={editWindowBlock}
-        activeProduct={activeProduct}
-        products={products}
-        setProductsList={setProductsList}
         activeElem={activeElem}
-        editProduct={editProduct}
         edittedProperties={edittedProperties}
         setEdittedproduct={setEdittedproduct}
         editProductFunction={editProductFunction}
         closeEditWindow={closeEditWindow}
+        formValid={formValid}
+        setFormValid={setFormValid}
       />
       <NewProductForm
         createNewProduct={createNewProduct}
@@ -140,8 +145,8 @@ index={index}
         setActiveCreateForm={setActiveCreateForm}
         btnCreate={btnCreate}
         setBtnCreate={setBtnCreate}
-        products={products}
         newId={newId}
+        editWindowBlock={editWindowBlock}
       />
     </div>
   );

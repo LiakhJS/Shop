@@ -5,9 +5,8 @@ import classes from "./Btns.module.css";
 const DeleteBtn = ({onClick}) => {
     return (
 
-<td><FaTrash className={classes.deleteIcon} onClick={onClick}/></td>
+<FaTrash className={classes.deleteIcon} onClick={onClick}/>
     );
-
     
 };
 

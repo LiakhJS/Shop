@@ -11,14 +11,19 @@ const Product = ({
   editWindowBlock,
   setProductCardBlock,
   setActiveElem,
-  index
-
-
+  index,
 }) => {
   const changeBgColor = () => {
     setActiveProduct(item.id);
     setProductCardBlock(true);
-   setActiveElem({index: index, id:item.id, url:item.url, name:item.name, price:item.price, count:item.count});
+    setActiveElem({
+      index: index,
+      id: item.id,
+      url: item.url,
+      name: item.name,
+      price: item.price,
+      count: item.count,
+    });
   };
   const deleteProductRow = (e) => {
     e.stopPropagation();
@@ -37,15 +42,19 @@ const Product = ({
       onClick={changeBgColor}
       key={item}
     >
-        <td>{item.id}</td>
+      <td>{item.id}</td>
       <td>
         <img src={item.url} style={{ width: "100px" }} alt="product" />
       </td>
       <td>{item.name}</td>
       <td>{item.price} руб</td>
       <td>{item.count} шт</td>
+      <td>
         <DeleteBtn item={item} onClick={deleteProductRow} />
-      <EditBtn onClick={showEditWindow} />
+      </td>
+      <td>
+        <EditBtn onClick={showEditWindow} />
+      </td>
     </tr>
   );
 };
