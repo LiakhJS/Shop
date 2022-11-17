@@ -147,6 +147,8 @@ if (activeCreateForm) {
         setBtnCreate={setBtnCreate}
         newId={newId}
         editWindowBlock={editWindowBlock}
+        formValid={formValid}
+        setFormValid={setFormValid}
       />
     </div>
   );
