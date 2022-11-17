@@ -4,17 +4,18 @@ import Button from "./UI/buttons/Btn";
 const NewProductForm = ({
   setActiveCreateForm,
   activeCreateForm,
-  setBtnCreate,
   editWindowBlock,
   createNewProduct,
   newId,
   formValid,
   setFormValid,
 }) => {
-  const [emailWrong, setEmailWrong] = useState(false);
-  const [pasWrong, setPasWrong] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [pasError, setPasError] = useState("");
+  const [nameWrong, setNameWrong] = useState(false);
+  const [priceWrong, setPriceWrong] = useState(false);
+  const [nameError, setNameError] = useState("");
+  const [priceError, setPriceError] = useState("");
+  const [countWrong, setCountWrong] = useState(false);
+  const [countError, setCountError] = useState("");
   const [product, setNewProduct] = useState({
     name: "",
     price: "",
@@ -34,39 +35,72 @@ const NewProductForm = ({
     e.preventDefault();
     setFormValid(false);
     setActiveCreateForm(true);
-    setBtnCreate(false);
+    // setBtnCreate(false);
   };
 
   const closeCreateMenu = (e) => {
-    e.preventDefault();
     setActiveCreateForm(false);
-    setBtnCreate(true);
+    // setBtnCreate(true);
+    e.preventDefault();
   };
 
   const blurHandle = (e) => {
     switch (e.target.name) {
-      case "title":
-        if (product.name.trim() === "" || product.name.length < 6) {
-          setEmailWrong(true);
-          setEmailError("некорректный имейл");
+      case "name":
+        if (
+          product.name.trim() === "" ||
+          product.name[0] !== product.name[0].toLocaleUpperCase() ||
+          isNaN(+product.name) === false
+        ) {
+          setNameWrong(true);
+          setNameError(
+            "некорректное название товара. Название товара должно начинаться с прописной буквы."
+          );
         } else {
-          setEmailWrong(false);
-          setEmailError("");
-          if (emailError || pasError) {
+          setNameWrong(false);
+          setNameError("");
+          if (nameError || priceError || countError) {
             setFormValid(false);
           } else {
             setFormValid(true);
           }
         }
         break;
-      case "body":
-        if (product.price.trim() === "" || product.price.length < 6) {
-          setPasWrong(true);
-          setPasError("некорректный пароль");
+      case "price":
+        if (
+          product.price.trim() === "" ||
+          product.price.length < 3 ||
+          +product.price <= 0 ||
+          isNaN(+product.price)
+        ) {
+          setPriceWrong(true);
+          setPriceError(
+            "поле не должно быть пустым и должно содержать не менее 3 цифр."
+          );
         } else {
-          setPasWrong(false);
-          setPasError("");
-          if (emailError || pasError) {
+          setPriceWrong(false);
+          setPriceError("");
+          if (nameError || priceError || countError) {
+            setFormValid(false);
+          } else {
+            setFormValid(true);
+          }
+        }
+        break;
+      case "count":
+        if (
+          product.count.trim() === "" ||
+          +product.count <= 0 ||
+          isNaN(+product.count)
+        ) {
+          setCountWrong(true);
+          setCountError(
+            "поле не должно быть пустым и должно состоять только из цифр"
+          );
+        } else {
+          setCountWrong(false);
+          setCountError("");
+          if (nameError || priceError || countError) {
             setFormValid(false);
           } else {
             setFormValid(true);
@@ -87,30 +121,37 @@ const NewProductForm = ({
           placeholder="url.."
           onChange={(e) => setNewProduct({ ...product, url: e.target.value })}
         />
-        {emailWrong && emailError && (
-          <div style={{ color: "red" }}>{emailError}</div>
+        {nameWrong && nameError && (
+          <div style={{ color: "red" }}>{nameError}</div>
         )}
         <input
-          name="title"
+          name="name"
           value={product.name}
           type="text"
           placeholder="name.."
           onBlur={(e) => blurHandle(e)}
           onChange={(e) => setNewProduct({ ...product, name: e.target.value })}
         />
-        {pasWrong && pasError && <div style={{ color: "red" }}>{pasError}</div>}
+        {priceWrong && priceError && (
+          <div style={{ color: "red" }}>{priceError}</div>
+        )}
         <input
-          name="body"
+          name="price"
           value={product.price}
-          type="number"
+          type="text"
           placeholder="price.."
           onBlur={(e) => blurHandle(e)}
           onChange={(e) => setNewProduct({ ...product, price: e.target.value })}
         />
+        {countWrong && countError && (
+          <div style={{ color: "red" }}>{countError}</div>
+        )}
         <input
+          name="count"
           value={product.count}
-          type="number"
+          type="text"
           placeholder="count.."
+          onBlur={(e) => blurHandle(e)}
           onChange={(e) => setNewProduct({ ...product, count: e.target.value })}
         />
         <Button disabled={!formValid} onClick={addNewProduct}>

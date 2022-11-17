@@ -36,7 +36,6 @@ const ProductsTable = () => {
   const [editWindowBlock, setEditWindowBlock] = useState(false);
   const [productCardBlock, setProductCardBlock] = useState(false);
   const [activeCreateForm, setActiveCreateForm] = useState(false);
-  const [btnCreate, setBtnCreate] = useState(true);
   const [activeElem, setActiveElem] = useState({});
   const [edittedProperties, setEdittedproduct] = useState({
     id: "",
@@ -78,10 +77,9 @@ const ProductsTable = () => {
   };
 
   const showEditWindow = () => {
-if (activeCreateForm) {
-  setEditWindowBlock(editWindowBlock);
-} else 
-    setEditWindowBlock(!editWindowBlock);
+    if (activeCreateForm) {
+      setEditWindowBlock(editWindowBlock);
+    } else setEditWindowBlock(!editWindowBlock);
   };
 
   const closeEditWindow = (e) => {
@@ -143,8 +141,6 @@ if (activeCreateForm) {
         createNewProduct={createNewProduct}
         activeCreateForm={activeCreateForm}
         setActiveCreateForm={setActiveCreateForm}
-        btnCreate={btnCreate}
-        setBtnCreate={setBtnCreate}
         newId={newId}
         editWindowBlock={editWindowBlock}
         formValid={formValid}
