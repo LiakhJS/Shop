@@ -1,37 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditWindow from "./EditWindow";
 import NewProductForm from "./NewProductForm";
 import Product from "./Product";
 import ProductCard from "./ProductCard";
-import project2 from "../Assests/image/project2.PNG";
 
 const shopName = "Евроопт";
-const productsList = [
-  {
-    id: 1,
-    name: "Ананас",
-    price: "4.55",
-    url: project2,
-    count: 111,
-  },
-  {
-    id: 2,
-    name: "Банан",
-    price: "3.79",
-    url: "https://img.e-dostavka.by/UserFiles/images/catalog/Goods/3033/00093033/norm/thumbs/00093033.n_1_190x190@2x.png.jpg",
-    count: 333,
-  },
-  {
-    id: 3,
-    name: "Помело",
-    price: "3.19",
-    url: "https://img.e-dostavka.by/UserFiles/images/catalog/Goods/7050/00077050/norm/thumbs/00077050.n_1_190x190@2x.png.jpg?09022021",
-    count: 444,
-  },
-];
+// const productsList = [
+//   {
+//     id: 1,
+//     name: "Ананас",
+//     price: "4.55",
+//     url: project2,
+//     count: 111,
+//   },
+//   {
+//     id: 2,
+//     name: "Банан",
+//     price: "3.79",
+//     url: "https://img.e-dostavka.by/UserFiles/images/catalog/Goods/3033/00093033/norm/thumbs/00093033.n_1_190x190@2x.png.jpg",
+//     count: 333,
+//   },
+//   {
+//     id: 3,
+//     name: "Помело",
+//     price: "3.19",
+//     url: "https://img.e-dostavka.by/UserFiles/images/catalog/Goods/7050/00077050/norm/thumbs/00077050.n_1_190x190@2x.png.jpg?09022021",
+//     count: 444,
+//   },
+// ];
 
 const ProductsTable = () => {
-  const [products, setProductsList] = useState(productsList);
+  const [products, setProductsList] = useState([]);
   const [activeProduct, setActiveProduct] = useState(null);
   const [editWindowBlock, setEditWindowBlock] = useState(false);
   const [productCardBlock, setProductCardBlock] = useState(false);
@@ -47,6 +46,19 @@ const ProductsTable = () => {
   const productsId = products.map((elem) => elem.id);
   const newId = Number(productsId.slice(-1)) + 1;
   const [formValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/data")
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setProductsList(result);
+        },
+        (error) => {
+          console.log(error.message);
+        }
+      );
+  }, []);
 
   const deleteProduct = (name) => {
     setProductsList(products.filter((el) => el.name !== name));
